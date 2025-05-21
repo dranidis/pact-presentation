@@ -1,0 +1,9 @@
+[submodule "demo-pact-consumer"]
+	path = demo-pact-consumer
+	url = git@github.com:dranidis/demo-pact-consumer.git
+[submodule "pact-broker-docker"]
+	path = pact-broker-docker
+	url = git@github.com:dranidis/pact-broker-docker.git
+[submodule "demo-pact-provider"]
+	path = demo-pact-provider
+	url = git@github.com:dranidis/demo-pact-provider.git
