@@ -27,7 +27,10 @@ Each feature below is providing its test and implementation code.
         })
         .willRespondWith(200, (builder_) => {
           builder_.headers({ "Content-Type": "application/json" });
-          builder_.jsonBody(MatchersV3.like(productExample));
+          builder_.jsonBody({
+            id: 1,
+            name: like(productExample.name),
+          });
         })
         .executeTest(async (mockserver) => {
           // Act: test our API client behaves correctly
@@ -76,17 +79,20 @@ Each feature below is providing its test and implementation code.
 ### Consumer Implementation
 
 ```
+  async getProductById(id: number): Promise<Product | null> {
+    try {
+      const response = await axios.request({
+        baseURL: this.url,
+        headers: { Accept: "application/json" },
+        method: "GET",
+        url: `/products/${id.toString()}`,
+      });
 
-  async getProductById(id: number): Promise<Product> {
-    const response = await axios.request({
-      baseURL: this.url,
-      headers: { Accept: "application/json" },
-      method: "GET",
-      url: `/products/${id.toString()}`,
-    });
-
-    // return the data from the response coverted to a Product
-    return new Product(response.data.id, response.data.name);
+      // return the data from the response coverted to a Product
+      return new Product(response.data.id, response.data.name);
+    } catch (error) {
+      return null;
+    }
   }
 ```
 
