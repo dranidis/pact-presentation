@@ -11,7 +11,7 @@ Each feature below is providing its test and implementation code.
 
 ### Consumer Test
 
-```
+```ts
   describe("GET /products/{id}", () => {
 
     it("returns an HTTP 200 and a single product by id", () => {
@@ -78,7 +78,7 @@ Each feature below is providing its test and implementation code.
 
 ### Consumer Implementation
 
-```
+```ts
   async getProductById(id: number): Promise<Product | null> {
     try {
       const response = await axios.request({
@@ -98,7 +98,7 @@ Each feature below is providing its test and implementation code.
 
 ### Provider test
 
-```
+```js
         "there are many products including a product with id 1": () => {
           productRepository.clearAll();
           productRepository.insert({
@@ -130,7 +130,7 @@ Each feature below is providing its test and implementation code.
 
 ### Provider implementation
 
-```
+```js
 server.get("/products/:id", function (req, res) {
   const id = req.params.id;
   console.log("Fetching...", productRepository.getById(id));
@@ -149,7 +149,7 @@ server.get("/products/:id", function (req, res) {
 
 ### Consumer Test
 
-```
+```ts
   describe("POST /products", () => {
     it("retuns an HTTP 201 when a product is created", () => {
       // Arrange: Setup our expected interactions
@@ -189,7 +189,7 @@ server.get("/products/:id", function (req, res) {
 
 ### Consumer Implementation
 
-```
+```ts
   async createProduct(productToBeCreated: { name: string; }): Promise<Product> {
     const response = await axios.request({
       baseURL: this.url,
@@ -205,14 +205,14 @@ server.get("/products/:id", function (req, res) {
 
 ### Provider test
 
-```
+```js
         "the product can be created": () => {
         }
 ```
 
 ### Provider implementation
 
-```
+```js
 server.post("/products", express.json(), function (req, res) {
   const product = req.body;
   console.log("Creating...", product);
