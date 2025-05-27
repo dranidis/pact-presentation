@@ -12,68 +12,49 @@ Each feature below is providing its test and implementation code.
 ### Consumer Test
 
 ```ts
-  describe("GET /products/{id}", () => {
-
-    it("returns an HTTP 200 and a single product by id", () => {
-      // Arrange: Setup our expected interactions
-      //
-      // We use Pact to mock out the backend API
-      return provider()
-        .addInteraction()
-        .given("there are many products including a product with id 1")
-        .uponReceiving("a request for a product by id")
-        .withRequest("GET", "/products/1", (builder) => {
-          builder.headers({ Accept: "application/json" });
-        })
-        .willRespondWith(200, (builder_) => {
-          builder_.headers({ "Content-Type": "application/json" });
-          builder_.jsonBody({
-            id: 1,
-            name: like(productExample.name),
-          });
-        })
-        .executeTest(async (mockserver) => {
-          // Act: test our API client behaves correctly
-          //
-          // Note we configure the ProductsAPI client dynamically to
-          // point to the mock service Pact created for us, instead of
-          // the real one
-          const productsAPIClient = new ProductsAPIClient(mockserver.url);
-          const product = await productsAPIClient.getProductById(1);
-
-          // Assert: check the result
-          expect(product).toBeInstanceOf(Product);
-          expect(product!.id).toEqual(productExample.id);
-          expect(product!.name).toEqual(productExample.name);
+describe("GET /products/{id}", () => {
+  it("returns an HTTP 200 and a single product by id", () => {
+    return provider()
+      .addInteraction()
+      .given("there are many products including a product with id 1")
+      .uponReceiving("a request for a product with id 1")
+      .withRequest("GET", "/products/1", (builder) => {
+        builder.headers({ Accept: "application/json" });
+      })
+      .willRespondWith(200, (builder) => {
+        builder.headers({ "Content-Type": "application/json" });
+        builder.jsonBody({
+          id: 1,
+          name: like(productExample.name),
         });
-    });
+      })
+      .executeTest(async (mockserver) => {
+        const productsAPIClient = new ProductsAPIClient(mockserver.url);
+        const product = await productsAPIClient.getProductById(1);
 
-    it("returns an HTTP 404 when the product does not exist", () => {
-      // Arrange: Setup our expected interactions
-      //
-      // We use Pact to mock out the backend API
-      return provider()
-        .addInteraction()
-        .given("there are many products but none with id 1")
-        .uponReceiving("a request for a product by id")
-        .withRequest("GET", "/products/1", (builder) => {
-          builder.headers({ Accept: "application/json" });
-        })
-        .willRespondWith(404)
-        .executeTest(async (mockserver) => {
-          // Act: test our API client behaves correctly
-          //
-          // Note we configure the ProductsAPI client dynamically to
-          // point to the mock service Pact created for us, instead of
-          // the real one
-          const productsAPIClient = new ProductsAPIClient(mockserver.url);
-          const product = await productsAPIClient.getProductById(1);
-
-          // Assert: check the result
-          expect(product).toBeNull();
-        });
-    });
+        expect(product).toBeInstanceOf(Product);
+        expect(product!.id).toEqual(productExample.id);
+        expect(product!.name).toEqual(productExample.name);
+      });
   });
+
+  it("returns an HTTP 404 when the product does not exist", () => {
+    return provider()
+      .addInteraction()
+      .given("there are many products but none with id 1")
+      .uponReceiving("a request for a product with id 1")
+      .withRequest("GET", "/products/1", (builder) => {
+        builder.headers({ Accept: "application/json" });
+      })
+      .willRespondWith(404)
+      .executeTest(async (mockserver) => {
+        const productsAPIClient = new ProductsAPIClient(mockserver.url);
+        const product = await productsAPIClient.getProductById(1);
+
+        expect(product).toBeNull();
+      });
+  });
+});
 ```
 
 ### Consumer Implementation
@@ -150,41 +131,34 @@ server.get("/products/:id", function (req, res) {
 ### Consumer Test
 
 ```ts
-  describe("POST /products", () => {
-    it("retuns an HTTP 201 when a product is created", () => {
-      // Arrange: Setup our expected interactions
-      //
-      // We use Pact to mock out the backend API
-      return provider()
-        .addInteraction()
-        .given("the product can be created")
-        .uponReceiving("a request to create a product")
-        .withRequest("POST", "/products", (builder) => {
-          builder.headers({ Accept: "application/json" });
-          builder.jsonBody({ name: productExample.name });
-        })
-        .willRespondWith(201, (builder_) => {
-          builder_.headers({ "Content-Type": "application/json" });
-          builder_.jsonBody({
-            id: like(productExample.id),
-            name: productExample.name,
-          });
-        })
-        .executeTest(async (mockserver) => {
-          // Act: test our API client behaves correctly
-          //
-          // Note we configure the ProductsAPI client dynamically to
-          // point to the mock service Pact created for us, instead of
-          // the real one
-          const productsAPIClient = new ProductsAPIClient(mockserver.url);
-          const product: Product = await productsAPIClient.createProduct({ name: productExample.name });
-
-          // Assert: check the result
-          expect(product.id).toBeGreaterThan(0);
-          expect(product.name).toEqual(productExample.name);
+describe("POST /products", () => {
+  it("retuns an HTTP 201 when a product is created", () => {
+    return provider()
+      .addInteraction()
+      .given("the product can be created")
+      .uponReceiving("a request to create a product")
+      .withRequest("POST", "/products", (builder) => {
+        builder.headers({ Accept: "application/json" });
+        builder.jsonBody({ name: productExample.name });
+      })
+      .willRespondWith(201, (builder) => {
+        builder.headers({ "Content-Type": "application/json" });
+        builder.jsonBody({
+          id: like(productExample.id),
+          name: productExample.name,
         });
-    });
+      })
+      .executeTest(async (mockserver) => {
+        const productsAPIClient = new ProductsAPIClient(mockserver.url);
+        const product: Product = await productsAPIClient.createProduct({
+          name: productExample.name,
+        });
+
+        expect(product.id).toBeGreaterThan(0);
+        expect(product.name).toEqual(productExample.name);
+      });
   });
+});
 ```
 
 ### Consumer Implementation
