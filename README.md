@@ -1,9 +1,12 @@
 # Repo with modules for pact demonstration
 
-I have presented and demonstated Pact on Tuesday, May 27, 2025 at Thessaloniki Software Testing & QA Meetup: https://www.linkedin.com/events/7326541118811082754 https://www.meetup.com/thessaloniki-software-testing-and-qa/events/307732820/?recId=[…]55de7-39c8-4fb3-b2d6-0d5039f987b1&eventOrigin=find_page%24all
+I have presented and demonstated Pact
 
-Slides:
-https://docs.google.com/presentation/d/15oVJ9X_VIkvsS8XWgyINT70bhExjGzn8mG3pR6j99Ps/present
+- on Saturday, November 8, 2025, at VOXXEDDAYS Thessaloniki 2025, https://m.devoxx.com/events/vdthess25/talks/1526/executable-agreements-code-collaborate-and-deploy-with-confidenc, Slides: https://docs.google.com/presentation/d/1mLhavgclnEea_wlcD2VWGBNcgJ_DBJB1aRWYgbST_jU/present
+
+- on Tuesday, May 27, 2025 at Thessaloniki Software Testing & QA Meetup: https://www.linkedin.com/events/7326541118811082754 https://www.meetup.com/thessaloniki-software-testing-and-qa/events/307732820/?recId=[…]55de7-39c8-4fb3-b2d6-0d5039f987b1&eventOrigin=find_page%24all.
+  Slides:
+  https://docs.google.com/presentation/d/15oVJ9X_VIkvsS8XWgyINT70bhExjGzn8mG3pR6j99Ps/present
 
 After cloning the repo, run:
 
